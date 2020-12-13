@@ -16,7 +16,11 @@ export default class HelloWorldScene extends Component {
   constructor() {
     super();
 
-    this.state = {} // Set initial state here
+    this.state = {
+      run_animation: false
+    }; // Set initial state here
+
+    this._onClick = this._onClick.bind(this);
   }
 
   render() {
@@ -28,10 +32,20 @@ export default class HelloWorldScene extends Component {
           width={2} height={2}
           position={[0, 0, -2]}
           style={styles.helloWorldTextStyle}
-          animation={{name:'animateText', run:true, loop:true}}
-        />
+          animation={{name:'animateText',
+            run: this.state.run_animation,
+            loop:true}}
+          onClick={this._onClick}
+          />
       </ViroScene>
     );
+  }
+
+  _onClick() {
+    console.log(this.state.run_animation);
+    this.setState({
+      run_animation: !this.state.run_animation
+    });
   }
 
 
@@ -39,7 +53,7 @@ export default class HelloWorldScene extends Component {
 
 
 
-ViroAnimations.registerAnimations({
+var animations = ViroAnimations.registerAnimations({
   animateText: {
     properties:{rotateY:"+=45"},
     duration:1000
